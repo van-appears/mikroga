@@ -1,4 +1,3 @@
---! file: player.lua
 Player = Object:extend()
 
 function Player:new()
@@ -43,4 +42,23 @@ end
 
 function Player:draw()
     love.graphics.draw(self.image, self.x, self.y)
+end
+
+function Player:collided(enemy)
+    -- allow small amounts of grace
+    local e_left = enemy.x + 1
+    local e_right = enemy.x + enemy.width - 2
+    local e_top = enemy.y + 1
+    local e_bottom = enemy.y + enemy.height - 2
+
+    -- only consider the main trunk of the ship
+    local p_left = self.x + 9
+    local p_right = self.x + self.width - 9
+    local p_top = self.y + 13
+    local p_bottom = self.y + self.height - 13
+
+    return  e_right > p_left
+        and e_left < p_right
+        and e_bottom > p_top
+        and e_top < p_bottom
 end
