@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.3] - 2026-04-11
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.2...0.0.3)
+
+### Added
+
+- Added bullets (enemybullet.lua) that are launched towards the player location once an 'enemy' reaches a specific location. Bullet collision restarts the game
+
+## [0.0.2] - 2026-04-05
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.1...0.0.2)
+
+### Added
+
+- Added enemies (enemy1.lua) that fall from the top of the screen at random speed. Enemy collision restarts the game.
+
 ## [0.0.1] - 2026-04-04
 
 ### Added
