@@ -2,8 +2,9 @@ function love.load()
     Object = require "lib/classic"
     require "src/game"
     require "src/menu"
-    require "src/enemybullet"
+    require "src/playerbullet"
     require "src/player"
+    require "src/enemybullet"
     require "src/enemy1"
 
     -- global dimension

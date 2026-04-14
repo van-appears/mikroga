@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
-## [0.0.2] - 2026-04-12
+## [0.0.5] - 2026-04-14
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.4...0.0.5)
+
+### Added
+
+- Added a new `playerbullet.lua` which shows basic title and instruction
+
+### Changed
+
+- Updated `player.lua` to fire bullets
+- Updated `game.lua`to cover enemy and player bullet collisions
+
+## [0.0.4] - 2026-04-12
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.3...0.0.4)
 

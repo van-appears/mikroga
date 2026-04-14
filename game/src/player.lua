@@ -4,12 +4,14 @@ function Player:new()
     self.image = love.graphics.newImage("assets/mikroga_white.png")
     self.speed = 500
     self.width = self.image:getWidth()
-    self.height = self.image:getHeight();
+    self.height = self.image:getHeight()
+    self.bulletcountdown = 0
     self.x = (WINDOW_WIDTH - self.width) / 2
     self.y = WINDOW_HEIGHT - self.height * 2
 end
 
-function Player:update(dt)
+function Player:update(dt, newBullets)
+    self.bulletcountdown = self.bulletcountdown - dt
     if love.keyboard.isDown("left") then
         self.x = self.x - self.speed * dt
     end
@@ -22,7 +24,13 @@ function Player:update(dt)
     if love.keyboard.isDown("down") then
         self.y = self.y + self.speed * dt
     end
-
+    if love.keyboard.isDown("space") and self.bulletcountdown <= 0 then
+        -- magic numbers based on the location of the cannons in the
+        -- mikroga image and the width of the mikroga bullet image
+        table.insert(newBullets, PlayerBullet(self.x + 23 - 8, self.y))
+        table.insert(newBullets, PlayerBullet(self.x + 64 - 23 - 8, self.y))
+        self.bulletcountdown = 0.3
+    end
     self:limit()
 end
 

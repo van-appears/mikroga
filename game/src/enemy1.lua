@@ -19,7 +19,7 @@ function Enemy1:update(dt, newBullets)
     if not self.fired and self.y > 100 then
         -- create the bullet using the centre point of the enemy ship X
         -- and the front of the ship
-        table.insert(newBullets, EnemyBullet(self.x + self.width / 2, self.y + self.height));
+        table.insert(newBullets, EnemyBullet(self.x + self.width / 2, self.y + self.height))
         self.fired = true
     end
 end
