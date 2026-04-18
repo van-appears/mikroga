@@ -4,13 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.6] - 2026-04-18
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.5...0.0.6)
+
+### Added
+
+- Added a new `images.lua` which is a global that represents the images, so that they are only loaded once
+
+### Changed
+
+- Updated other files to use less globals
+- Changed player and enemy to return simple coords for the new bullets they launch rather than instantiate PlayerBullet and EnemyBullet directly
+
 ## [0.0.5] - 2026-04-14
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.4...0.0.5)
 
 ### Added
 
-- Added a new `playerbullet.lua` which shows basic title and instruction
+- Added a new `playerbullet.lua` to represent the player shooting
 
 ### Changed
 
