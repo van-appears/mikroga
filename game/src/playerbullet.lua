@@ -1,11 +1,11 @@
-PlayerBullet = Object:extend()
+local PlayerBullet = Object:extend()
 
-function PlayerBullet:new(x, y)
-    self.image = love.graphics.newImage("assets/mikroga_bullet.png")
+function PlayerBullet:new(coords)
+    self.image = Images.playerbullet
     self.width = self.image:getWidth()
-    self.height = self.image:getHeight();
-    self.x = x
-    self.y = y
+    self.height = self.image:getHeight()
+    self.x = coords[1] - self.width / 2
+    self.y = coords[2]
     self.speedY = -300
     self.gone = false
 end
@@ -52,3 +52,5 @@ end
 function PlayerBullet:draw()
     love.graphics.draw(self.image, self.x, self.y)
 end
+
+return PlayerBullet

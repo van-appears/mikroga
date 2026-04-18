@@ -1,11 +1,11 @@
-EnemyBullet = Object:extend()
+local EnemyBullet = Object:extend()
 
-function EnemyBullet:new(shipX, shipY)
-    self.image = love.graphics.newImage("assets/enemy_bullet_white.png")
+function EnemyBullet:new(coords)
+    self.image = Images.enemybullet
     self.width = self.image:getWidth()
-    self.height = self.image:getHeight();
-    self.x = shipX - self.width / 2
-    self.y = shipY
+    self.height = self.image:getHeight()
+    self.x = coords[1] - self.width / 2
+    self.y = coords[2]
     self.gone = false
     -- default fire is straight forwards
     self.speedX = 0
@@ -34,3 +34,5 @@ end
 function EnemyBullet:draw()
     love.graphics.draw(self.image, self.x, self.y)
 end
+
+return EnemyBullet

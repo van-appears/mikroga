@@ -1,18 +1,17 @@
 function love.load()
+    -- globals
     Object = require "lib/classic"
-    require "src/game"
-    require "src/menu"
-    require "src/playerbullet"
-    require "src/player"
-    require "src/enemybullet"
-    require "src/enemy1"
+    Images = require "src/images"
+    Game = require "src/game"
+    Menu = require "src/menu"
 
-    -- global dimension
     WINDOW_WIDTH = love.graphics.getWidth()
     WINDOW_HEIGHT = love.graphics.getHeight()
     STATE = "menu"
 
     Menu:prepare()
+    Game:load()
+    Images:load()
 end
 
 function love.update(dt)

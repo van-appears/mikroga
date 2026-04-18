@@ -22,3 +22,5 @@ function Menu:draw()
     startText:add({{1,1,1}, "PRESS SPACE TO START"}, 0, 0)
     love.graphics.draw(startText, 10, 100)
 end
+
+return Menu

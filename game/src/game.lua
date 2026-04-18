@@ -1,10 +1,22 @@
 Game = Object:extend()
 
+local Player
+local PlayerBullet
+local Enemy1
+local EnemyBullet
+
 local player
 local enemies
 local enemyBullets
 local playerBullets
 local counter
+
+function Game:load()
+    PlayerBullet = require "src/playerbullet"
+    Player = require "src/player"
+    EnemyBullet = require "src/enemybullet"
+    Enemy1 = require "src/enemy1"
+end
 
 function Game:prepare()
     player = Player()
@@ -62,12 +74,14 @@ function Game:update(dt)
     end
 
     for i,v in ipairs(newEnemyBullets) do
-        v:target(player)
-        table.insert(enemyBullets, v)
+        local bullet = EnemyBullet(v)
+        bullet:target(player)
+        table.insert(enemyBullets, bullet)
     end
 
     for i,v in ipairs(newPlayerBullets) do
-        table.insert(playerBullets, v)
+        local bullet = PlayerBullet(v)
+        table.insert(playerBullets, bullet)
     end
 
     if counter > 5 then
@@ -88,3 +102,5 @@ function Game:draw()
     end
     player:draw()
 end
+
+return Game

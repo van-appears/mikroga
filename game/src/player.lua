@@ -1,7 +1,7 @@
-Player = Object:extend()
+local Player = Object:extend()
 
 function Player:new()
-    self.image = love.graphics.newImage("assets/mikroga_white.png")
+    self.image = Images.player
     self.speed = 500
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
@@ -26,9 +26,9 @@ function Player:update(dt, newBullets)
     end
     if love.keyboard.isDown("space") and self.bulletcountdown <= 0 then
         -- magic numbers based on the location of the cannons in the
-        -- mikroga image and the width of the mikroga bullet image
-        table.insert(newBullets, PlayerBullet(self.x + 23 - 8, self.y))
-        table.insert(newBullets, PlayerBullet(self.x + 64 - 23 - 8, self.y))
+        -- mikroga image
+        table.insert(newBullets, {self.x + 23, self.y})
+        table.insert(newBullets, {self.x + 64 - 23, self.y})
         self.bulletcountdown = 0.3
     end
     self:limit()
@@ -70,3 +70,5 @@ function Player:collided(enemy)
         and eBottom > pTop
         and eTop < pBottom
 end
+
+return Player;
