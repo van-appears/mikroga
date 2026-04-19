@@ -7,9 +7,18 @@ function EnemyBullet:new(coords)
     self.x = coords[1] - self.width / 2
     self.y = coords[2]
     self.gone = false
-    -- default fire is straight forwards
     self.speedX = 0
-    self.speedY = 300
+    self.speedY = 0
+    self.setTarget = true
+
+    if coords[3] then
+        self.speedX = coords[3]
+        self.setTarget = false
+    end
+    if coords[4] then
+        self.speedY = coords[4]
+        self.setTarget = false
+    end
 end
 
 function EnemyBullet:target(player)

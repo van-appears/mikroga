@@ -3,6 +3,7 @@ Game = Object:extend()
 local Player
 local PlayerBullet
 local Enemy1
+local Enemy2
 local EnemyBullet
 
 local player
@@ -16,6 +17,7 @@ function Game:load()
     Player = require "src/player"
     EnemyBullet = require "src/enemybullet"
     Enemy1 = require "src/enemy1"
+    Enemy2 = require "src/enemy2"
 end
 
 function Game:prepare()
@@ -25,7 +27,7 @@ function Game:prepare()
     playerBullets = {}
     counter = 0
 
-    table.insert(enemies, Enemy1())
+    table.insert(enemies, Game:randomEnemy())
     STATE = "playing"
 end
 
@@ -56,8 +58,8 @@ function Game:update(dt)
 
                     -- spawn new enemies
                     -- otherwise the game would never end!
-                    table.insert(enemies, Enemy1())
-                    table.insert(enemies, Enemy1())
+                    table.insert(enemies, Game:randomEnemy())
+                    table.insert(enemies, Game:randomEnemy())
                 end
             end
         end
@@ -69,13 +71,15 @@ function Game:update(dt)
             STATE = "menu"
         elseif v.gone then
             table.remove(enemies, i)
-            table.insert(enemies, Enemy1())
+            table.insert(enemies, Game:randomEnemy())
         end
     end
 
     for i,v in ipairs(newEnemyBullets) do
         local bullet = EnemyBullet(v)
-        bullet:target(player)
+        if bullet.setTarget then
+            bullet:target(player)
+        end
         table.insert(enemyBullets, bullet)
     end
 
@@ -85,10 +89,18 @@ function Game:update(dt)
     end
 
     if counter > 5 then
-        table.insert(enemies, Enemy1())
+        table.insert(enemies, Game:randomEnemy())
         counter = counter - 5
     end
 end
+
+function Game:randomEnemy()
+    if math.random() < 0.5 then
+        return Enemy1()
+    else
+        return Enemy2()
+    end
+end 
 
 function Game:draw()
     for i,v in ipairs(enemies) do

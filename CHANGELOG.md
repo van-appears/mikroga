@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.7] - 2026-04-19
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.6...0.0.7)
+
+### Added
+
+- Added a new `enemy2.lua` which is a second ship with a different firing pattern. This also means adding an additional image in `images.lua`
+
+### Changed
+
+- Updated `enemybullet.lua` so that bullets are targeted or not ('setTarget') flag
+- Updated `game.lua` to pick a random enemy to add at each point, rather than always Enemy1
+
 ## [0.0.6] - 2026-04-18
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.5...0.0.6)
