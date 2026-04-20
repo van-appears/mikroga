@@ -54,12 +54,15 @@ function Game:update(dt)
             for j,w in ipairs(enemies) do
                 if v:collided(w) then
                     table.remove(playerBullets, i)
-                    table.remove(enemies, j)
+                    w.health = w.health - 1
+                    if w.health <= 0 then
+                        table.remove(enemies, j)
 
-                    -- spawn new enemies
-                    -- otherwise the game would never end!
-                    table.insert(enemies, Game:randomEnemy())
-                    table.insert(enemies, Game:randomEnemy())
+                        -- spawn new enemies
+                        -- otherwise the game would never end!
+                        table.insert(enemies, Game:randomEnemy())
+                        table.insert(enemies, Game:randomEnemy())
+                    end
                 end
             end
         end

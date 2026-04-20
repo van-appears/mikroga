@@ -9,6 +9,7 @@ function Enemy2:new()
     self.speed = 100 + love.math.random(100)
     self.gone = false
     self.fired = false
+    self.health = 6
 end
 
 function Enemy2:update(dt, newBullets)
