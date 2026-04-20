@@ -6,11 +6,13 @@ local Enemy1
 local Enemy2
 local EnemyBullet
 
+local score
 local player
 local enemies
 local enemyBullets
 local playerBullets
 local counter
+local font
 
 function Game:load()
     PlayerBullet = require "src/playerbullet"
@@ -21,11 +23,15 @@ function Game:load()
 end
 
 function Game:prepare()
+    love.graphics.setFont(love.graphics.newFont(20))
+    font = love.graphics.getFont()
+
     player = Player()
     enemies = {}
     enemyBullets = {}
     playerBullets = {}
     counter = 0
+    score = 0
 
     table.insert(enemies, Game:randomEnemy())
     STATE = "playing"
@@ -40,6 +46,7 @@ function Game:update(dt)
     for i,v in ipairs(enemyBullets) do
         v:update(dt)
         if player:collided(v) then
+            Scoreboard:update(score)
             STATE = "menu"
         elseif v.gone then
             table.remove(enemyBullets, i)
@@ -57,6 +64,7 @@ function Game:update(dt)
                     w.health = w.health - 1
                     if w.health <= 0 then
                         table.remove(enemies, j)
+                        score = score + w.score
 
                         -- spawn new enemies
                         -- otherwise the game would never end!
@@ -71,6 +79,7 @@ function Game:update(dt)
     for i,v in ipairs(enemies) do
         v:update(dt, newEnemyBullets)
         if player:collided(v) then
+            Scoreboard:update(score)
             STATE = "menu"
         elseif v.gone then
             table.remove(enemies, i)
@@ -106,6 +115,10 @@ function Game:randomEnemy()
 end 
 
 function Game:draw()
+    local scoreText = love.graphics.newText(font)
+    scoreText:add({{1,1,1}, string.format("%d", score)}, 0, 0)
+    love.graphics.draw(scoreText, 10, 10)
+
     for i,v in ipairs(enemies) do
         v:draw()
     end

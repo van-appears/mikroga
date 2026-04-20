@@ -10,6 +10,7 @@ function Enemy1:new()
     self.gone = false
     self.fired = false
     self.health = 3
+    self.score = 10
 end
 
 function Enemy1:update(dt, newBullets)

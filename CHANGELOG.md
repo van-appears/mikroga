@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.9] - 2026-04-20
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.8...0.0.9)
+
+### Added
+
+- Added `scoreboard.lua` as a global store for the high score
+
+### Changed
+
+- Updated enemies to have individual scores
+- Updated `game.lua` to store and render the game score and set it in the Scoreboard at the end of the game
+
 ## [0.0.8] - 2026-04-20
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.7...0.0.8)

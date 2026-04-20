@@ -4,12 +4,12 @@ function love.load()
     Images = require "src/images"
     Game = require "src/game"
     Menu = require "src/menu"
+    Scoreboard = require "src/scoreboard"
 
     WINDOW_WIDTH = love.graphics.getWidth()
     WINDOW_HEIGHT = love.graphics.getHeight()
     STATE = "menu"
 
-    Menu:prepare()
     Game:load()
     Images:load()
 end
