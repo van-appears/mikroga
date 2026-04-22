@@ -5,6 +5,7 @@ local PlayerBullet
 local Enemy1
 local Enemy2
 local EnemyBullet
+local EnemyPath
 
 local score
 local player
@@ -20,6 +21,7 @@ function Game:load()
     EnemyBullet = require "src/enemybullet"
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
+    EnemyPath = require "src/enemypath"
 end
 
 function Game:prepare()
@@ -65,11 +67,6 @@ function Game:update(dt)
                     if w.health <= 0 then
                         table.remove(enemies, j)
                         score = score + w.score
-
-                        -- spawn new enemies
-                        -- otherwise the game would never end!
-                        table.insert(enemies, Game:randomEnemy())
-                        table.insert(enemies, Game:randomEnemy())
                     end
                 end
             end
@@ -83,7 +80,6 @@ function Game:update(dt)
             STATE = "menu"
         elseif v.gone then
             table.remove(enemies, i)
-            table.insert(enemies, Game:randomEnemy())
         end
     end
 
@@ -100,17 +96,17 @@ function Game:update(dt)
         table.insert(playerBullets, bullet)
     end
 
-    if counter > 5 then
+    if counter > 1.5 then
         table.insert(enemies, Game:randomEnemy())
-        counter = counter - 5
+        counter = counter - 1.5
     end
 end
 
 function Game:randomEnemy()
     if math.random() < 0.5 then
-        return Enemy1()
+        return Enemy1(EnemyPath())
     else
-        return Enemy2()
+        return Enemy2(EnemyPath())
     end
 end 
 

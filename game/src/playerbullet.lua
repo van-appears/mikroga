@@ -32,11 +32,11 @@ function PlayerBullet:limit()
 end
 
 function PlayerBullet:collided(enemy)
-    -- allow small amounts of grace
-    local eLeft = enemy.x + 1
-    local eRight = enemy.x + enemy.width - 2
-    local eTop = enemy.y + 1
-    local eBottom = enemy.y + enemy.height - 2
+    -- ignore 1px border inside enemy image
+    local eLeft = enemy.path.x + 1
+    local eRight = enemy.path.x + enemy.width - 2
+    local eTop = enemy.path.y + 1
+    local eBottom = enemy.path.y + enemy.height - 2
 
     local bLeft = self.x
     local bRight = self.x + self.width

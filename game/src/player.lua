@@ -29,7 +29,7 @@ function Player:update(dt, newBullets)
         -- mikroga image
         table.insert(newBullets, {self.x + 23, self.y})
         table.insert(newBullets, {self.x + 64 - 23, self.y})
-        self.bulletcountdown = 0.3
+        self.bulletcountdown = 0.2
     end
     self:limit()
 end
@@ -53,11 +53,11 @@ function Player:draw()
 end
 
 function Player:collided(enemy)
-    -- allow small amounts of grace
-    local eLeft = enemy.x + 1
-    local eRight = enemy.x + enemy.width - 2
-    local eTop = enemy.y + 1
-    local eBottom = enemy.y + enemy.height - 2
+    -- ignore 1px border inside enemy image
+    local eLeft = (enemy.path and enemy.path.x or enemy.x) + 1
+    local eRight = (enemy.path and enemy.path.x or enemy.x) + enemy.width - 2
+    local eTop = (enemy.path and enemy.path.y or enemy.y) + 1
+    local eBottom = (enemy.path and enemy.path.y or enemy.y) + enemy.height - 2
 
     -- only consider the main trunk of the ship
     local pLeft = self.x + 9
@@ -65,7 +65,7 @@ function Player:collided(enemy)
     local pTop = self.y + 13
     local pBottom = self.y + self.height - 13
 
-    return  eRight > pLeft
+    return eRight > pLeft
         and eLeft < pRight
         and eBottom > pTop
         and eTop < pBottom
