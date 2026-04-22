@@ -1,7 +1,7 @@
 local EnemyPath = Object:extend()
 
 function EnemyPath:new()
-\   self.type = love.math.random(3)
+    self.type = love.math.random(3)
     if self.type == 1 then
         self:initDrop()
     elseif self.type == 2 then
