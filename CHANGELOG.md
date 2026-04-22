@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.10] - 2026-04-22
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.9...0.0.10)
+
+### Added
+
+- Added `enemypath.lua` as a set of different paths that enemies can take
+
+### Changed
+
+- Updated `enemy1.lua` and `enemy2.lua` to use an enemypath for direction, and to fire after a set time rather than when they reach a specific location.
+- Changed `game.lua` to add enemies on a regular timer rather than when they die or go offscreen.
+- Updated `player.lua` to handle both enemy path location and bullet location. 
+
 ## [0.0.9] - 2026-04-20
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.8...0.0.9)
