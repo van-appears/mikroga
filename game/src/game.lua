@@ -84,10 +84,7 @@ function Game:update(dt)
     end
 
     for i,v in ipairs(newEnemyBullets) do
-        local bullet = EnemyBullet(v)
-        if bullet.setTarget then
-            bullet:target(player)
-        end
+        local bullet = EnemyBullet(EnemyPath:build(v, player))
         table.insert(enemyBullets, bullet)
     end
 
@@ -104,9 +101,9 @@ end
 
 function Game:randomEnemy()
     if math.random() < 0.5 then
-        return Enemy1(EnemyPath())
+        return Enemy1(EnemyPath:random())
     else
-        return Enemy2(EnemyPath())
+        return Enemy2(EnemyPath:random())
     end
 end 
 

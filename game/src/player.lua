@@ -54,10 +54,10 @@ end
 
 function Player:collided(enemy)
     -- ignore 1px border inside enemy image
-    local eLeft = (enemy.path and enemy.path.x or enemy.x) + 1
-    local eRight = (enemy.path and enemy.path.x or enemy.x) + enemy.width - 2
-    local eTop = (enemy.path and enemy.path.y or enemy.y) + 1
-    local eBottom = (enemy.path and enemy.path.y or enemy.y) + enemy.height - 2
+    local eLeft = enemy.path.x + 1
+    local eRight = enemy.path.x + enemy.width - 2
+    local eTop = enemy.path.y + 1
+    local eBottom = enemy.path.y + enemy.height - 2
 
     -- only consider the main trunk of the ship
     local pLeft = self.x + 9

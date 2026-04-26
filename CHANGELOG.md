@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.11] - 2026-04-26
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.10...0.0.11)
+
+### Changed
+
+- Updated `enemybullet.lua` to also use enemypath.
+- Changed enemies to return a table of data to initialise enemypath for the bullets.
+- Updated `enemypath.lua` to include bouncing when dropping, and to bounch round the screen in the random mode.
+
 ## [0.0.10] - 2026-04-22
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.9...0.0.10)

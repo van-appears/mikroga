@@ -24,31 +24,32 @@ function Enemy2:update(dt, newBullets)
     if not self.fired and self.counter > 1.5 then
         -- create the bullet using the centre point of the enemy ship X
         -- and the front of the ship
-        local startX = self.path.x + self.width / 2
+        local startX = self.path.x + (self.width - Images.enemybullet:getWidth()) / 2
         local startY = self.path.y + self.height
+        local speed = 100 + love.math.random(100)
         table.insert(newBullets, {
-            startX,
-            startY,
-            300 * math.cos(36 * math.pi * 2.0 / 360),
-            300 * math.sin(36 * math.pi * 2.0 / 360)
+            x = startX,
+            y = startY,
+            speed = speed,
+            angle = 36
         })
         table.insert(newBullets, {
-            startX,
-            startY,
-            300 * math.cos(72 * math.pi * 2.0 / 360),
-            300 * math.sin(72 * math.pi * 2.0 / 360)
+            x = startX,
+            y = startY,
+            speed = speed,
+            angle = 72
         })
         table.insert(newBullets, {
-            startX,
-            startY,
-            300 * math.cos(108 * math.pi * 2.0 / 360),
-            300 * math.sin(108 * math.pi * 2.0 / 360)
+            x = startX,
+            y = startY,
+            speed = speed,
+            angle = 108
         })
         table.insert(newBullets, {
-            startX,
-            startY,
-            300 * math.cos(144 * math.pi * 2.0 / 360),
-            300 * math.sin(144 * math.pi * 2.0 / 360)
+            x = startX,
+            y = startY,
+            speed = speed,
+            angle = 144
         })
         self.fired = true
     end

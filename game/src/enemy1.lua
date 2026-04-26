@@ -24,7 +24,11 @@ function Enemy1:update(dt, newBullets)
     if not self.fired and self.counter > 1.5 then
         -- create the bullet using the centre point of the enemy ship X
         -- and the front of the ship
-        table.insert(newBullets, {self.path.x + self.width / 2, self.path.y + self.height})
+        table.insert(newBullets, {
+            x = self.path.x + (self.width - Images.enemybullet:getWidth()) / 2,
+            y = self.path.y + self.height,
+            target = true
+        })
         self.fired = true
     end
 end
