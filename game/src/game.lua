@@ -6,14 +6,13 @@ local Enemy1
 local Enemy2
 local EnemyBullet
 local EnemyPath
+local Hud
 
-local score
 local player
 local enemies
 local enemyBullets
 local playerBullets
 local counter
-local font
 
 function Game:load()
     PlayerBullet = require "src/playerbullet"
@@ -22,18 +21,19 @@ function Game:load()
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
     EnemyPath = require "src/enemypath"
+    Hud = require "src/hud"
 end
 
 function Game:prepare()
-    love.graphics.setFont(love.graphics.newFont(20))
-    font = love.graphics.getFont()
-
     player = Player()
     enemies = {}
     enemyBullets = {}
     playerBullets = {}
     counter = 0
-    score = 0
+
+    self.lives = 3
+    self.score = 0
+    self.hud = Hud(self)
 
     table.insert(enemies, Game:randomEnemy())
     STATE = "playing"
@@ -48,8 +48,8 @@ function Game:update(dt)
     for i,v in ipairs(enemyBullets) do
         v:update(dt)
         if player:collided(v) then
-            Scoreboard:update(score)
-            STATE = "menu"
+            Scoreboard:update(self.score)
+            self:playerDied()
         elseif v.gone then
             table.remove(enemyBullets, i)
         end
@@ -66,7 +66,7 @@ function Game:update(dt)
                     w.health = w.health - 1
                     if w.health <= 0 then
                         table.remove(enemies, j)
-                        score = score + w.score
+                        self.score = self.score + w.score
                     end
                 end
             end
@@ -76,8 +76,8 @@ function Game:update(dt)
     for i,v in ipairs(enemies) do
         v:update(dt, newEnemyBullets)
         if player:collided(v) then
-            Scoreboard:update(score)
-            STATE = "menu"
+            Scoreboard:update(self.score)
+            self:playerDied()
         elseif v.gone then
             table.remove(enemies, i)
         end
@@ -99,6 +99,17 @@ function Game:update(dt)
     end
 end
 
+function Game:playerDied()
+    self.lives = self.lives - 1
+    if self.lives == 0 then
+        STATE = "menu"
+    else
+        enemies = {}
+        enemyBullets = {}
+        playerBullets = {}
+    end
+end
+
 function Game:randomEnemy()
     if math.random() < 0.5 then
         return Enemy1(EnemyPath:random())
@@ -108,10 +119,7 @@ function Game:randomEnemy()
 end 
 
 function Game:draw()
-    local scoreText = love.graphics.newText(font)
-    scoreText:add({{1,1,1}, string.format("%d", score)}, 0, 0)
-    love.graphics.draw(scoreText, 10, 10)
-
+    self.hud:draw()
     for i,v in ipairs(enemies) do
         v:draw()
     end

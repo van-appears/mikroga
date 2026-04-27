@@ -10,9 +10,9 @@ end
 
 function EnemyBullet:update(dt)
     self.path:update(dt)
-    if self.path.x < 0
+    if self.path.x < 0 - self.width
         or self.path.x > WINDOW_WIDTH
-        or self.path.y < 0
+        or self.path.y < 0 - self.height
         or self.path.y > WINDOW_HEIGHT then
         self.gone = true
     end

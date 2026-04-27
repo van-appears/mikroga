@@ -6,6 +6,7 @@ function Images:load()
     self.enemybullet = love.graphics.newImage("assets/enemy_bullet_white.png")
     self.enemy1 = love.graphics.newImage("assets/enemy1_white.png")
     self.enemy2 = love.graphics.newImage("assets/enemy2_white.png")
+    self.life = love.graphics.newImage("assets/life.png")
 end
 
 return Images

@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.12] - 2026-04-27
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.11...0.0.12)
+
+### Added
+
+- Created `hud.lua` to render both the score and number of lives
+
+### Changed
+
+- Simple 'life' implementation wipes out enemies and bullets on hit, or resets back to menu
+when all lives are gone.
+
 ## [0.0.11] - 2026-04-26
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.10...0.0.11)
