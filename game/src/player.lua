@@ -2,16 +2,20 @@ local Player = Object:extend()
 
 function Player:new()
     self.image = Images.player
+    self.imageinvulnerable = Images.playerinvulnerable
     self.speed = 500
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
     self.bulletcountdown = 0
+    self.invulnerable = 0
     self.x = (WINDOW_WIDTH - self.width) / 2
     self.y = WINDOW_HEIGHT - self.height * 2
 end
 
 function Player:update(dt, newBullets)
     self.bulletcountdown = self.bulletcountdown - dt
+    self.invulnerable = self.invulnerable - dt
+
     if love.keyboard.isDown("left") then
         self.x = self.x - self.speed * dt
     end
@@ -49,10 +53,23 @@ function Player:limit()
 end
 
 function Player:draw()
-    love.graphics.draw(self.image, self.x, self.y)
+    if self.invulnerable > 0 then
+        local nint, frac = math.modf(self.invulnerable)
+        if (frac >= 0.25 and frac < 0.5) or frac >= 0.75 then
+            love.graphics.draw(self.imageinvulnerable, self.x, self.y)
+        else
+            love.graphics.draw(self.image, self.x, self.y)
+        end
+    else
+        love.graphics.draw(self.image, self.x, self.y)
+    end
 end
 
 function Player:collided(enemy)
+    if self.invulnerable > 0 then
+        return false
+    end
+
     -- ignore 1px border inside enemy image
     local eLeft = enemy.path.x + 1
     local eRight = enemy.path.x + enemy.width - 2
@@ -69,6 +86,10 @@ function Player:collided(enemy)
         and eLeft < pRight
         and eBottom > pTop
         and eTop < pBottom
+end
+
+function Player:setInvulnerable()
+    self.invulnerable = 3
 end
 
 return Player;

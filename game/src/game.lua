@@ -104,9 +104,7 @@ function Game:playerDied()
     if self.lives == 0 then
         STATE = "menu"
     else
-        enemies = {}
-        enemyBullets = {}
-        playerBullets = {}
+        player:setInvulnerable()
     end
 end
 
@@ -129,6 +127,7 @@ function Game:draw()
     for i,v in ipairs(playerBullets) do
         v:draw()
     end
+
     player:draw()
 end
 
