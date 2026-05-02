@@ -6,6 +6,7 @@ local Enemy1
 local Enemy2
 local EnemyBullet
 local EnemyPath
+local Explosion
 local Hud
 
 local player
@@ -13,6 +14,7 @@ local enemies
 local enemyBullets
 local playerBullets
 local counter
+local explosions
 
 function Game:load()
     PlayerBullet = require "src/playerbullet"
@@ -21,6 +23,7 @@ function Game:load()
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
     EnemyPath = require "src/enemypath"
+    Explosion = require "src/explosion"
     Hud = require "src/hud"
 end
 
@@ -29,6 +32,7 @@ function Game:prepare()
     enemies = {}
     enemyBullets = {}
     playerBullets = {}
+    explosions = {}
     counter = 0
 
     self.lives = 3
@@ -65,11 +69,19 @@ function Game:update(dt)
                     table.remove(playerBullets, i)
                     w.health = w.health - 1
                     if w.health <= 0 then
+                        self:createExplosions(w)
                         table.remove(enemies, j)
                         self.score = self.score + w.score
                     end
                 end
             end
+        end
+    end
+
+    for i,v in ipairs(explosions) do
+        v:update(dt)
+        if v.gone then
+            table.remove(explosions, i)
         end
     end
 
@@ -108,6 +120,16 @@ function Game:playerDied()
     end
 end
 
+function Game:createExplosions(enemy)
+    local paths = Explosion:buildPaths(enemy)
+    for i,v in ipairs(paths) do
+        table.insert(
+            explosions,
+            Explosion(EnemyPath:build(v))
+        )
+    end
+end
+
 function Game:randomEnemy()
     if math.random() < 0.5 then
         return Enemy1(EnemyPath:random())
@@ -118,6 +140,9 @@ end
 
 function Game:draw()
     self.hud:draw()
+    for i,v in ipairs(explosions) do
+        v:draw()
+    end
     for i,v in ipairs(enemies) do
         v:draw()
     end

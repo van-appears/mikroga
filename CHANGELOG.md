@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.14] - 2026-05-02
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.13...0.0.14)
+
+### Added
+
+- Added `explosion.lua` to represent a fading piece of shrapnel. On enemy death a random number of explosions are created with random speed.
+
+## [0.0.13] - 2026-05-01
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.12...0.0.13)
+
+### Changed
+
+- Being hit no longer clears the screen but loses a life and sets a 3-second invulnerability timer, using an additional image.
+
 ## [0.0.12] - 2026-04-27
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.11...0.0.12)
