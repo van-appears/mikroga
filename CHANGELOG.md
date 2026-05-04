@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
-## [0.0.16] - 2026-05-04
+## [0.0.15] - 2026-05-04
 
-[diff](https://github.com/van-appears/mikroga/compare/0.0.15...0.0.16)
+[diff](https://github.com/van-appears/mikroga/compare/0.0.14...0.0.15)
 
 ### Added
 
@@ -16,14 +16,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 ### Changed
 
 - Enemies are assigned a random colour and use that to render them and their bullets. Other than how they look, there is no in-game difference between black and white at this point.
-
-## [0.0.15] - 2026-05-02
-
-[diff](https://github.com/van-appears/mikroga/compare/0.0.14...0.0.15)
-
-### Added
-
-- Added `explosion.lua` to represent a fading piece of shrapnel. On enemy death a random number of explosions are created with random speed.
 
 ## [0.0.14] - 2026-05-02
 
