@@ -1,9 +1,10 @@
 local EnemyBullet = Object:extend()
 
-function EnemyBullet:new(path)
+function EnemyBullet:new(path, colour)
     self.image = Images.enemybullet
-    self.width = self.image:getWidth()
-    self.height = self.image:getHeight()
+    self.width = self.image.width
+    self.height = self.image.height
+    self.colour = colour
     self.path = path
     self.gone = false
 end
@@ -19,7 +20,7 @@ function EnemyBullet:update(dt)
 end
 
 function EnemyBullet:draw()
-    love.graphics.draw(self.image, self.path.x, self.path.y)
+    self.image:draw(self.colour, self.path.x, self.path.y)
 end
 
 return EnemyBullet

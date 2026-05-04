@@ -96,7 +96,7 @@ function Game:update(dt)
     end
 
     for i,v in ipairs(newEnemyBullets) do
-        local bullet = EnemyBullet(EnemyPath:build(v, player))
+        local bullet = EnemyBullet(EnemyPath:build(v, player), v.colour)
         table.insert(enemyBullets, bullet)
     end
 

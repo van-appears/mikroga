@@ -6,6 +6,8 @@ function love.load()
     Menu = require "src/menu"
     Scoreboard = require "src/scoreboard"
 
+    BLACK = 2
+    WHITE = 1
     WINDOW_WIDTH = love.graphics.getWidth()
     WINDOW_HEIGHT = love.graphics.getHeight()
     STATE = "menu"

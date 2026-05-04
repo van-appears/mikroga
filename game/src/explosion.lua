@@ -3,8 +3,8 @@ local Explosion = Object:extend()
 function Explosion:buildPaths(enemy)
     local pieces = 5 + math.floor(love.math.random(5))
     local angle = love.math.random(360)
-    local startX = enemy.path.x + (enemy.width - Images.explosionsize) / 2
-    local startY = enemy.path.y + (enemy.height - Images.explosionsize) / 2
+    local startX = enemy.path.x + (enemy.width - Images.explosion.width) / 2
+    local startY = enemy.path.y + (enemy.height - Images.explosion.height) / 2
     local paths = {}
     for i = 1, pieces do
         table.insert(
@@ -22,10 +22,7 @@ function Explosion:buildPaths(enemy)
 end
 
 function Explosion:new(path)
-    self.image = Images.explosion
-    self.imageframes = Images.explosionframes
-    self.width = Images.explosionsize
-    self.height = Images.explosionsize
+    self.imageQuad = Images.explosion
     self.path = path
     self.life = 0
     self.gone = false
@@ -42,11 +39,7 @@ function Explosion:update(dt)
 end
 
 function Explosion:draw()
-    love.graphics.draw(
-        self.image,
-        self.imageframes[1 + math.floor(7 * self.life)],
-        self.path.x,
-        self.path.y)
+    self.imageQuad:draw(1 + math.floor(7 * self.life), self.path.x, self.path.y)
 end
 
 return Explosion

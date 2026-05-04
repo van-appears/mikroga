@@ -1,9 +1,10 @@
 local Enemy1 = Object:extend()
 
 function Enemy1:new(path)
-    self.image = Images.enemy1
-    self.width = self.image:getWidth()
-    self.height = self.image:getHeight()
+    self.imageQuad = Images.enemy1
+    self.width = self.imageQuad.width
+    self.height = self.imageQuad.height
+    self.colour = Enemy1:randomColour()
     self.gone = false
     self.fired = false
     self.health = 3
@@ -25,16 +26,25 @@ function Enemy1:update(dt, newBullets)
         -- create the bullet using the centre point of the enemy ship X
         -- and the front of the ship
         table.insert(newBullets, {
-            x = self.path.x + (self.width - Images.enemybullet:getWidth()) / 2,
+            x = self.path.x + (self.width - Images.enemybullet.width) / 2,
             y = self.path.y + self.height,
-            target = true
+            target = true,
+            colour = self.colour
         })
         self.fired = true
     end
 end
 
 function Enemy1:draw()
-    love.graphics.draw(self.image, self.path.x, self.path.y)
+    self.imageQuad:draw(self.colour, self.path.x, self.path.y)
+end
+
+function Enemy1:randomColour()
+    if love.math.random(10) <= 5 then
+        return BLACK
+    else
+        return WHITE
+    end
 end
 
 return Enemy1
