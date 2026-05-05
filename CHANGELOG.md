@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.16] - 2026-05-05
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.15...0.0.16)
+
+### Added
+
+- Added `colour` property to player and changed mikroga images to also be a quad.
+- Being hit by an enemy bullet of the same colour absorbs that bullet and adds a point, but does not kill the player.
+
 ## [0.0.15] - 2026-05-04
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.14...0.0.15)

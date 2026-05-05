@@ -3,9 +3,10 @@ local Player = Object:extend()
 function Player:new()
     self.image = Images.player
     self.imageinvulnerable = Images.playerinvulnerable
+    self.colour = WHITE
     self.speed = 500
-    self.width = self.image:getWidth()
-    self.height = self.image:getHeight()
+    self.width = self.image.width
+    self.height = self.image.height
     self.bulletcountdown = 0
     self.invulnerable = 0
     self.x = (WINDOW_WIDTH - self.width) / 2
@@ -58,10 +59,10 @@ function Player:draw()
         if (frac >= 0.25 and frac < 0.5) or frac >= 0.75 then
             love.graphics.draw(self.imageinvulnerable, self.x, self.y)
         else
-            love.graphics.draw(self.image, self.x, self.y)
+            self.image:draw(self.colour, self.x, self.y)
         end
     else
-        love.graphics.draw(self.image, self.x, self.y)
+        self.image:draw(self.colour, self.x, self.y)
     end
 end
 

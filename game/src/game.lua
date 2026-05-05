@@ -52,8 +52,13 @@ function Game:update(dt)
     for i,v in ipairs(enemyBullets) do
         v:update(dt)
         if player:collided(v) then
-            Scoreboard:update(self.score)
-            self:playerDied()
+            if v.colour == player.colour then
+                table.remove(enemyBullets, i)
+                self.score = self.score + 1
+            else
+                Scoreboard:update(self.score)
+                self:playerDied()
+            end
         elseif v.gone then
             table.remove(enemyBullets, i)
         end
