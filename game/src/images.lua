@@ -3,11 +3,11 @@ Images = Object:extend()
 local QuadImage = Object:extend()
 
 function Images:load()
-    self.playerbullet = love.graphics.newImage("assets/mikroga_bullet.png")
     self.playerinvulnerable = love.graphics.newImage("assets/mikroga_invulnerable.png")
     self.life = love.graphics.newImage("assets/life.png")
 
     self.player = QuadImage:build("assets/mikroga.png", 64, 60, 1)
+    self.playerbullet = QuadImage:build("assets/mikroga_bullet.png", 16, 32, 1)
     self.enemy1 = QuadImage:build("assets/enemy1.png", 64, 64, 1)
     self.enemy2 = QuadImage:build("assets/enemy2.png", 64, 64, 1)
     self.enemybullet = QuadImage:build("assets/enemy_bullet.png", 32, 32, 1)

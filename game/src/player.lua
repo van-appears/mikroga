@@ -9,6 +9,7 @@ function Player:new()
     self.height = self.image.height
     self.bulletcountdown = 0
     self.invulnerable = 0
+    self.allowSwap = true
     self.x = (WINDOW_WIDTH - self.width) / 2
     self.y = WINDOW_HEIGHT - self.height * 2
 end
@@ -35,6 +36,14 @@ function Player:update(dt, newBullets)
         table.insert(newBullets, {self.x + 23, self.y})
         table.insert(newBullets, {self.x + 64 - 23, self.y})
         self.bulletcountdown = 0.2
+    end
+    if love.keyboard.isDown("rshift") or love.keyboard.isDown("lshift") then
+        if self.allowSwap then
+            self.colour = (BLACK + WHITE) - self.colour
+            self.allowSwap = false
+        end
+    else
+        self.allowSwap = true
     end
     self:limit()
 end

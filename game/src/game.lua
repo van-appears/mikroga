@@ -72,7 +72,12 @@ function Game:update(dt)
             for j,w in ipairs(enemies) do
                 if v:collided(w) then
                     table.remove(playerBullets, i)
-                    w.health = w.health - 1
+                    if v.colour == w.colour then
+                        w.health = w.health - 1
+                    else
+                        w.health = w.health - 2
+                    end
+
                     if w.health <= 0 then
                         self:createExplosions(w)
                         table.remove(enemies, j)
@@ -107,6 +112,7 @@ function Game:update(dt)
 
     for i,v in ipairs(newPlayerBullets) do
         local bullet = PlayerBullet(v)
+        bullet.colour = player.colour
         table.insert(playerBullets, bullet)
     end
 

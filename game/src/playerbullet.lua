@@ -2,12 +2,13 @@ local PlayerBullet = Object:extend()
 
 function PlayerBullet:new(coords)
     self.image = Images.playerbullet
-    self.width = self.image:getWidth()
-    self.height = self.image:getHeight()
+    self.width = self.image.width
+    self.height = self.image.height
     self.x = coords[1] - self.width / 2
     self.y = coords[2]
     self.speedY = -300
     self.gone = false
+    self.colour = WHITE
 end
 
 function PlayerBullet:update(dt)
@@ -50,7 +51,7 @@ function PlayerBullet:collided(enemy)
 end
 
 function PlayerBullet:draw()
-    love.graphics.draw(self.image, self.x, self.y)
+    self.image:draw(self.colour, self.x, self.y)
 end
 
 return PlayerBullet
