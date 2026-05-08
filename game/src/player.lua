@@ -33,8 +33,16 @@ function Player:update(dt, newBullets)
     if love.keyboard.isDown("space") and self.bulletcountdown <= 0 then
         -- magic numbers based on the location of the cannons in the
         -- mikroga image
-        table.insert(newBullets, {self.x + 23, self.y})
-        table.insert(newBullets, {self.x + 64 - 23, self.y})
+        table.insert(newBullets, {
+            x = self.x + 23,
+            y = self.y,
+            colour = self.colour
+        })
+        table.insert(newBullets, {
+            x = self.x + 64 - 23,
+            y = self.y,
+            colour = self.colour
+        })
         self.bulletcountdown = 0.2
     end
     if love.keyboard.isDown("rshift") or love.keyboard.isDown("lshift") then

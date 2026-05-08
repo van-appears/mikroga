@@ -112,7 +112,6 @@ function Game:update(dt)
 
     for i,v in ipairs(newPlayerBullets) do
         local bullet = PlayerBullet(v)
-        bullet.colour = player.colour
         table.insert(playerBullets, bullet)
     end
 

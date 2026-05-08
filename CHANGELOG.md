@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.18] - 2026-05-08
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.17...0.0.18)
+
+### Added
+
+- Creaged `Enemy.lua` containing the duplicate code from Enemy1 and Enemy2
+
+### Changed
+
+- Updated Enemy1 and Enemy2 to extend the new Enemy object
+- Tidied up the player to pass through colour in opts, rather than patching it in `game.lua`.
+
+## [0.0.17] - 2026-05-06
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.16...0.0.17)
+
+### Changed
+
+- Shift key now changes the player colour
+- Player bullets now also have a colour. Opposite colour hits cause twice as much damage.
+
 ## [0.0.16] - 2026-05-05
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.15...0.0.16)

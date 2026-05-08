@@ -1,14 +1,14 @@
 local PlayerBullet = Object:extend()
 
-function PlayerBullet:new(coords)
+function PlayerBullet:new(opts)
     self.image = Images.playerbullet
     self.width = self.image.width
     self.height = self.image.height
-    self.x = coords[1] - self.width / 2
-    self.y = coords[2]
+    self.x = opts.x - self.width / 2
+    self.y = opts.y
+    self.colour = opts.colour
     self.speedY = -300
     self.gone = false
-    self.colour = WHITE
 end
 
 function PlayerBullet:update(dt)
