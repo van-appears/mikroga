@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.19] - 2026-05-09
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.18...0.0.19)
+
+### Changed
+
+- Moved local variables into object variables in `game.lua`
+- Wait for draw after update before killing player, so bullet hits can be rendered.
+
 ## [0.0.18] - 2026-05-08
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.17...0.0.18)

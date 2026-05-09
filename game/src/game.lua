@@ -9,13 +9,6 @@ local EnemyPath
 local Explosion
 local Hud
 
-local player
-local enemies
-local enemyBullets
-local playerBullets
-local counter
-local explosions
-
 function Game:load()
     PlayerBullet = require "src/playerbullet"
     Player = require "src/player"
@@ -28,50 +21,63 @@ function Game:load()
 end
 
 function Game:prepare()
-    player = Player()
-    enemies = {}
-    enemyBullets = {}
-    playerBullets = {}
-    explosions = {}
-    counter = 0
+    self.enemies = {}
+    self.playerBullets = {}
+    self.enemyBullets = {}
+    self.explosions = {}
+    self.hits = {}
 
+    self.player = Player()
+    self.hud = Hud(self)
+    self.deadNext = false
+    self.counter = 0
     self.lives = 3
     self.score = 0
-    self.hud = Hud(self)
 
-    table.insert(enemies, Game:randomEnemy())
+    table.insert(self.enemies, Game:randomEnemy())
     STATE = "playing"
 end
 
 function Game:update(dt)
-    counter = counter + dt
     local newPlayerBullets = {}
     local newEnemyBullets = {}
-    player:update(dt, newPlayerBullets)
 
-    for i,v in ipairs(enemyBullets) do
+    self.hits = {}
+    self.counter = self.counter + dt
+    self.player:update(dt, newPlayerBullets)
+
+    if self.deadNext then
+        Scoreboard:update(self.score)
+        self.deadNext = false
+        self:playerDied()
+    end
+
+    for i,v in ipairs(self.enemyBullets) do
         v:update(dt)
-        if player:collided(v) then
-            if v.colour == player.colour then
-                table.remove(enemyBullets, i)
+        if self.player:collided(v) then
+            table.remove(self.enemyBullets, i)
+            if v.colour == self.player.colour then
                 self.score = self.score + 1
+                v.colour = 4 -- magic number, fourth quad in enemy_bullet.png
+                table.insert(self.hits, v)
             else
-                Scoreboard:update(self.score)
-                self:playerDied()
+                self.deadNext = true
+                v.colour = 3 -- magic number, third quad in enemy_bullet.png
+                table.insert(self.hits, v)
             end
         elseif v.gone then
-            table.remove(enemyBullets, i)
+            table.remove(self.enemyBullets, i)
         end
     end
 
-    for i,v in ipairs(playerBullets) do
+    for i,v in ipairs(self.playerBullets) do
         v:update(dt)
         if v.gone then
-            table.remove(playerBullets, i)
+            table.remove(self.playerBullets, i)
         else
-            for j,w in ipairs(enemies) do
+            for j,w in ipairs(self.enemies) do
                 if v:collided(w) then
-                    table.remove(playerBullets, i)
+                    table.remove(self.playerBullets, i)
                     if v.colour == w.colour then
                         w.health = w.health - 1
                     else
@@ -80,7 +86,7 @@ function Game:update(dt)
 
                     if w.health <= 0 then
                         self:createExplosions(w)
-                        table.remove(enemies, j)
+                        table.remove(self.enemies, j)
                         self.score = self.score + w.score
                     end
                 end
@@ -88,36 +94,36 @@ function Game:update(dt)
         end
     end
 
-    for i,v in ipairs(explosions) do
+    for i,v in ipairs(self.explosions) do
         v:update(dt)
         if v.gone then
-            table.remove(explosions, i)
+            table.remove(self.explosions, i)
         end
     end
 
-    for i,v in ipairs(enemies) do
+    for i,v in ipairs(self.enemies) do
         v:update(dt, newEnemyBullets)
-        if player:collided(v) then
-            Scoreboard:update(self.score)
+        if self.player:collided(v) then
+            self.deadNext = true
             self:playerDied()
         elseif v.gone then
-            table.remove(enemies, i)
+            table.remove(self.enemies, i)
         end
     end
 
     for i,v in ipairs(newEnemyBullets) do
-        local bullet = EnemyBullet(EnemyPath:build(v, player), v.colour)
-        table.insert(enemyBullets, bullet)
+        local bullet = EnemyBullet(EnemyPath:build(v, self.player), v.colour)
+        table.insert(self.enemyBullets, bullet)
     end
 
     for i,v in ipairs(newPlayerBullets) do
         local bullet = PlayerBullet(v)
-        table.insert(playerBullets, bullet)
+        table.insert(self.playerBullets, bullet)
     end
 
-    if counter > 1.5 then
-        table.insert(enemies, Game:randomEnemy())
-        counter = counter - 1.5
+    if self.counter > 1.5 then
+        table.insert(self.enemies, Game:randomEnemy())
+        self.counter = self.counter - 1.5
     end
 end
 
@@ -126,7 +132,7 @@ function Game:playerDied()
     if self.lives == 0 then
         STATE = "menu"
     else
-        player:setInvulnerable()
+        self.player:setInvulnerable()
     end
 end
 
@@ -134,7 +140,7 @@ function Game:createExplosions(enemy)
     local paths = Explosion:buildPaths(enemy)
     for i,v in ipairs(paths) do
         table.insert(
-            explosions,
+            self.explosions,
             Explosion(EnemyPath:build(v))
         )
     end
@@ -149,21 +155,23 @@ function Game:randomEnemy()
 end 
 
 function Game:draw()
+    for i,v in ipairs(self.explosions) do
+        v:draw()
+    end
+    for i,v in ipairs(self.enemies) do
+        v:draw()
+    end
+    for i,v in ipairs(self.enemyBullets) do
+        v:draw()
+    end
+    for i,v in ipairs(self.playerBullets) do
+        v:draw()
+    end
+    for i,v in ipairs(self.hits) do
+        v:draw()
+    end
     self.hud:draw()
-    for i,v in ipairs(explosions) do
-        v:draw()
-    end
-    for i,v in ipairs(enemies) do
-        v:draw()
-    end
-    for i,v in ipairs(enemyBullets) do
-        v:draw()
-    end
-    for i,v in ipairs(playerBullets) do
-        v:draw()
-    end
-
-    player:draw()
+    self.player:draw()
 end
 
 return Game
