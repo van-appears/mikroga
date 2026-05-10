@@ -21,13 +21,13 @@ function love.update(dt)
         Menu:update(dt)
     elseif STATE == "prepare" then
         Game:prepare()
-    elseif STATE == "playing" then
+    elseif STATE == "playing" or STATE == "death" then
         Game:update(dt)
     end
 end
 
 function love.draw()
-    if STATE == "playing" then
+    if STATE == "playing" or STATE == "death" then
         Game:draw()
     else
         Menu:draw()

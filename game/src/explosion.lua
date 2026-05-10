@@ -1,10 +1,11 @@
 local Explosion = Object:extend()
 
-function Explosion:buildPaths(enemy)
-    local pieces = 5 + math.floor(love.math.random(5))
+function Explosion:buildPaths(source)
+    local pieces = 8 + math.floor(love.math.random(8))
     local angle = love.math.random(360)
-    local startX = enemy.path.x + (enemy.width - Images.explosion.width) / 2
-    local startY = enemy.path.y + (enemy.height - Images.explosion.height) / 2
+    local pathObj = source.path or source
+    local startX = pathObj.x + (source.width - Images.explosion.width) / 2
+    local startY = pathObj.y + (source.height - Images.explosion.height) / 2
     local paths = {}
     for i = 1, pieces do
         table.insert(
@@ -13,7 +14,7 @@ function Explosion:buildPaths(enemy)
                 x = startX,
                 y = startY,
                 angle = angle,
-                speed = 100 + love.math.random(100)
+                speed = 160 + love.math.random(160)
             }
         )
         angle = angle + 360 / pieces

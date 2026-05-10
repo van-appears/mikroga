@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.20] - 2026-05-10
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.19...0.0.20)
+
+### Changed
+
+- Added another state "death" to represent the final life lost
+- Changes to `game.lua` so that final life lost results in an explosion for the player but enemies keep moving around the screen for a few seconds before returning to the menu
+- Changed `explosion.lua` to allow for an object with a path, or an x / y variable.
+
 ## [0.0.19] - 2026-05-09
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.18...0.0.19)
