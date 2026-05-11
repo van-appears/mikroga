@@ -31,12 +31,10 @@ function Game:prepare()
     self.hud = Hud(self)
     self.deadNext = false
     self.counter = 0
-    self.endCounter = 0
     self.lives = 3
     self.score = 0
 
-    table.insert(self.enemies, Game:randomEnemy())
-    STATE = "playing"
+    STATE = "begin"
 end
 
 function Game:update(dt)
@@ -47,13 +45,18 @@ function Game:update(dt)
     self.hits = {}
     self.counter = self.counter + dt
     if self.lives > 0 then
-        self.player:update(dt, newPlayerBullets)
-    else
-        self.endCounter = self.endCounter + dt
-        if self.endCounter > 5 then
-            Scoreboard:update(self.score)
-            STATE = "menu"
+        if STATE == "begin" then
+            local yAdjust = 1 - math.cos(2 * self.counter * math.pi / 3) + (self.counter / 3)
+            self.player.y = WINDOW_HEIGHT + 100 - yAdjust * 200
+            if self.counter > 3 then
+                STATE = "playing"
+            end
+        else
+            self.player:update(dt, newPlayerBullets)
         end
+    elseif self.counter > 5 then
+        Scoreboard:update(self.score)
+        STATE = "menu"
     end
 
     for i,v in ipairs(self.enemyBullets) do
@@ -124,7 +127,7 @@ function Game:update(dt)
         table.insert(self.playerBullets, bullet)
     end
 
-    if self.counter > 1.5 then
+    if self.counter > 1.5 and STATE == "playing" then
         table.insert(self.enemies, Game:randomEnemy())
         self.counter = self.counter - 1.5
     end
@@ -135,6 +138,7 @@ function Game:playerDied()
     self.lives = self.lives - 1
     if self.lives == 0 then
         STATE = "death"
+        self.counter = 0
         self:createExplosions(self.player)
     else
         self.player:setInvulnerable()

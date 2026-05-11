@@ -11,7 +11,7 @@ function Player:new()
     self.invulnerable = 0
     self.allowSwap = true
     self.x = (WINDOW_WIDTH - self.width) / 2
-    self.y = WINDOW_HEIGHT - self.height * 2
+    self.y = WINDOW_HEIGHT + self.height -- initially offscreen
 end
 
 function Player:update(dt, newBullets)

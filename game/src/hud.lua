@@ -21,6 +21,18 @@ function Hud:draw()
     for i=1, self.game.lives do
         love.graphics.draw(lifeImage, WINDOW_WIDTH - 10 - (i * (lifeWidth + 2)), 10)
     end
+
+    if STATE == "begin" and self.game.counter > 1 and self.game.counter < 2 then
+        local stateText = love.graphics.newText(font)
+        stateText:add({{1,1,1}, "GET READY"}, 0, 0)
+        love.graphics.draw(stateText, 200, 200)
+    end
+
+    if STATE == "death" and self.game.counter > 1 then
+        local stateText = love.graphics.newText(font)
+        stateText:add({{1,1,1}, "GAME OVER"}, 0, 0)
+        love.graphics.draw(stateText, 200, 200)
+    end
 end
 
 return Hud

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.21] - 2026-05-11
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.20...0.0.21)
+
+### Changed
+
+- Added another state "begin" to represent the initial start of the game
+- Changes to `game.lua` so that enemies do not appear in the "begin" state and player is launched into the screen.
+- Changed `hud.lua` to show very basic 'get ready' and 'game over' messages.
+
 ## [0.0.20] - 2026-05-10
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.19...0.0.20)
