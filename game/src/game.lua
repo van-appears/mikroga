@@ -8,6 +8,7 @@ local EnemyBullet
 local EnemyPath
 local Explosion
 local Hud
+local Level1
 
 function Game:load()
     PlayerBullet = require "src/playerbullet"
@@ -18,6 +19,7 @@ function Game:load()
     EnemyPath = require "src/enemypath"
     Explosion = require "src/explosion"
     Hud = require "src/hud"
+    Level1 = require "src/level1"
 end
 
 function Game:prepare()
@@ -27,10 +29,12 @@ function Game:prepare()
     self.explosions = {}
     self.hits = {}
 
-    self.player = Player()
     self.hud = Hud(self)
+    self.player = Player()
+    self.level = Level1()
     self.deadNext = false
     self.counter = 0
+    self.endCounter = 0
     self.lives = 3
     self.score = 0
 
@@ -40,6 +44,7 @@ end
 function Game:update(dt)
     local newPlayerBullets = {}
     local newEnemyBullets = {}
+    local newEnemies = {}
 
     self.deadNext = false
     self.hits = {}
@@ -51,12 +56,23 @@ function Game:update(dt)
             if self.counter > 3 then
                 STATE = "playing"
             end
+        elseif STATE == "completed" then
+            self.endCounter = self.endCounter + dt
+            local yAdjust = math.sin(0.5 * self.endCounter * math.pi / 3)
+            self.player.y = self.player.y - yAdjust * 200
+            if self.endCounter > 3 then
+                Scoreboard:update(self.score)
+                STATE = "menu"
+            end
         else
             self.player:update(dt, newPlayerBullets)
         end
-    elseif self.counter > 5 then
-        Scoreboard:update(self.score)
-        STATE = "menu"
+    else
+        self.endCounter = self.endCounter + dt
+        if self.endCounter > 5 then
+            Scoreboard:update(self.score)
+            STATE = "menu"
+        end
     end
 
     for i,v in ipairs(self.enemyBullets) do
@@ -127,9 +143,14 @@ function Game:update(dt)
         table.insert(self.playerBullets, bullet)
     end
 
-    if self.counter > 1.5 and STATE == "playing" then
-        table.insert(self.enemies, Game:randomEnemy())
-        self.counter = self.counter - 1.5
+    self.level:update(dt, newEnemies)
+    for i,v in ipairs(newEnemies) do
+        if v[2] == 0 then
+            STATE = "completed"
+        else
+            local enemy = self:createEnemy(v)
+            table.insert(self.enemies, enemy)
+        end
     end
 end
 
@@ -138,7 +159,6 @@ function Game:playerDied()
     self.lives = self.lives - 1
     if self.lives == 0 then
         STATE = "death"
-        self.counter = 0
         self:createExplosions(self.player)
     else
         self.player:setInvulnerable()
@@ -155,12 +175,16 @@ function Game:createExplosions(source)
     end
 end
 
-function Game:randomEnemy()
-    if math.random() < 0.5 then
-        return Enemy1(EnemyPath:random())
+function Game:createEnemy(table)
+    local enemy = nil;
+    local path = EnemyPath:drop(table[4], table[5], table[6])
+    if table[2] == 1 then
+        enemy = Enemy1(path)
     else
-        return Enemy2(EnemyPath:random())
+        enemy = Enemy2(path)
     end
+    enemy.colour = table[3]
+    return enemy
 end 
 
 function Game:draw()

@@ -10,16 +10,13 @@ function EnemyPath:new()
     self.speedY = 0
 end
 
-function EnemyPath:random()
+function EnemyPath:drop(x, y, speedY)
+    print(x, y, speedY)
     local path = EnemyPath()
-    path.type = love.math.random(3)
-    if path.type == DROP then
-        path:initDrop()
-    elseif path.type == STRAFE then
-        path:initStrafe()
-    elseif path.type == BOUNCE then
-        path:initBounce()
-    end
+    path.type = DROP
+    path.x = x
+    path.y = y
+    path.speedY = speedY
     return path
 end
 

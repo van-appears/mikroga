@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.22] - 2026-05-15
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.21...0.0.22)
+
+### Added
+
+- Added `level1.lua` to represent specific timings and types of enemies arriving onscreen, rather than randomly generated as before. This is a very roughly created set of positions.
+
+### Changed
+
+- Added another state "completed" to represent getting to the end of the level - this causes the player to fly off the top of the screen.
+- Changes to `hud.lua` to also show a basic completed message.
+- Note that there is now a lot of 'dead' code in EnemyPath.lua, but some of that may be useful to extend the level with more interesting enemy paths.
+
 ## [0.0.21] - 2026-05-11
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.20...0.0.21)

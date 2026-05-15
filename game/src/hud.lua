@@ -33,6 +33,12 @@ function Hud:draw()
         stateText:add({{1,1,1}, "GAME OVER"}, 0, 0)
         love.graphics.draw(stateText, 200, 200)
     end
+
+    if STATE == "completed" and self.game.counter > 1 then
+        local stateText = love.graphics.newText(font)
+        stateText:add({{1,1,1}, "COMPLETED!"}, 0, 0)
+        love.graphics.draw(stateText, 200, 200)
+    end
 end
 
 return Hud
