@@ -134,7 +134,7 @@ function Game:update(dt)
     end
 
     for i,v in ipairs(newEnemyBullets) do
-        local bullet = EnemyBullet(EnemyPath:build(v, self.player), v.colour)
+        local bullet = EnemyBullet(EnemyPath:defined(v, self.player), v.colour)
         table.insert(self.enemyBullets, bullet)
     end
 
@@ -170,7 +170,7 @@ function Game:createExplosions(source)
     for i,v in ipairs(paths) do
         table.insert(
             self.explosions,
-            Explosion(EnemyPath:build(v))
+            Explosion(v)
         )
     end
 end

@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.24] - 2026-05-17
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.23...0.0.24)
+
+### Changed
+
+- Removed extraneous code from EnemyPath.
+- Changed explosion to use EnemyPath:angled introduced in the last change.
+- Made explosions a bit more random.
+
 ## [0.0.23] - 2026-05-17
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.22...0.0.23)

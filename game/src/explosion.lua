@@ -1,7 +1,8 @@
 local Explosion = Object:extend()
+local EnemyPath = require "src/enemypath"
 
 function Explosion:buildPaths(source)
-    local pieces = 8 + math.floor(love.math.random(8))
+    local pieces = love.math.random(8, 16)
     local angle = love.math.random(360)
     local pathObj = source.path or source
     local startX = pathObj.x + (source.width - Images.explosion.width) / 2
@@ -10,12 +11,7 @@ function Explosion:buildPaths(source)
     for i = 1, pieces do
         table.insert(
             paths,
-            {
-                x = startX,
-                y = startY,
-                angle = angle,
-                speed = 160 + love.math.random(160)
-            }
+            EnemyPath:angled(startX, startY, 100 + love.math.random(220), angle)
         )
         angle = angle + 360 / pieces
     end
@@ -25,22 +21,23 @@ end
 function Explosion:new(path)
     self.imageQuad = Images.explosion
     self.path = path
-    self.life = 0
+    self.counter = 0
     self.gone = false
+    self.maxCounter = love.math.random(10, 15) / 10
 end
 
 function Explosion:update(dt)
-    self.life = self.life + dt
+    self.counter = self.counter + dt
     self.path:update(dt)
     self.path.speedX = self.path.speedX * 0.95
     self.path.speedY = self.path.speedY * 0.95
-    if self.life >= 1 then
+    if self.counter >= self.maxCounter then
         self.gone = true
     end
 end
 
 function Explosion:draw()
-    self.imageQuad:draw(1 + math.floor(7 * self.life), self.path.x, self.path.y)
+    self.imageQuad:draw(1 + math.floor(7 * self.counter / self.maxCounter), self.path.x, self.path.y)
 end
 
 return Explosion
