@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.23] - 2026-05-17
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.22...0.0.23)
+
+### Changed
+
+- Extended EnemyPath to include curved and strafing paths.
+- Updated main to have constants for each path type, enemy type and colour.
+- Updated level1 and game to use additional paths and make use of additional constants.
+
 ## [0.0.22] - 2026-05-15
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.21...0.0.22)

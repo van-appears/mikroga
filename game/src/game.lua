@@ -176,8 +176,17 @@ function Game:createExplosions(source)
 end
 
 function Game:createEnemy(table)
-    local enemy = nil;
-    local path = EnemyPath:drop(table[4], table[5], table[6])
+    local enemy = nil
+    local path = nil
+    if table[4] == DROP then
+        path = EnemyPath:drop(table[5], table[6])
+    elseif table[4] == STRAFE_LEFT then
+        path = EnemyPath:strafeLeft(table[5], table[6])
+    elseif table[4] == STRAFE_RIGHT then
+        path = EnemyPath:strafeRight(table[5], table[6])
+    elseif table[4] == CURVED then
+        path = EnemyPath:curvedDrop(table[5], table[6], table[7], table[8])
+    end
     if table[2] == 1 then
         enemy = Enemy1(path)
     else

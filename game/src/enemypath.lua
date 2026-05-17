@@ -1,8 +1,6 @@
 local EnemyPath = Object:extend()
-
-local DROP = 1
-local STRAFE = 2
-local BOUNCE = 3
+local CurvedPath = Object:extend()
+local StraightPath = Object:extend()
 local DEFINED = 4
 
 function EnemyPath:new()
@@ -10,13 +8,35 @@ function EnemyPath:new()
     self.speedY = 0
 end
 
-function EnemyPath:drop(x, y, speedY)
-    print(x, y, speedY)
-    local path = EnemyPath()
-    path.type = DROP
-    path.x = x
-    path.y = y
-    path.speedY = speedY
+function EnemyPath:drop(startX, speedY)
+    return EnemyPath:angled(startX, -100, speedY, 90)
+end
+
+function EnemyPath:strafeRight(startY, speedX)
+    return EnemyPath:angled(-100, startY, speedX, 0)
+end
+
+function EnemyPath:strafeLeft(startY, speedX)
+    return EnemyPath:angled(WINDOW_WIDTH + 100, startY, speedX, 180)
+end
+
+function EnemyPath:angled(startX, startY, speed, angle)
+    local path = StraightPath()
+    path.x = startX
+    path.y = startY
+    path.speedX = speed * math.cos(angle * math.pi * 2.0 / 360)
+    path.speedY = speed * math.sin(angle * math.pi * 2.0 / 360)
+    print(path.x, path.y, path.speedX, path.speedY)
+    return path
+end
+
+function EnemyPath:curvedDrop(startX, speed, width, period)
+    local path = CurvedPath()
+    path.x = startX
+    path.y = -100
+    path.speedY = speed
+    path.width = width
+    path.period = period
     return path
 end
 
@@ -125,6 +145,21 @@ function EnemyPath:update(dt)
         self.x = self.x + (self.speedX * dt)
         self.y = self.y + (self.speedY * dt)
     end
+end
+
+function StraightPath:update(dt)
+    self.x = self.x + (self.speedX * dt)
+    self.y = self.y + (self.speedY * dt)
+end
+
+function CurvedPath:new()
+    self.counter = 0
+end
+
+function CurvedPath:update(dt)
+    self.counter = self.counter + dt
+    self.x = self.x + self.width * dt * math.sin(self.counter * math.pi * 2 / self.period)
+    self.y = self.y + self.speedY * dt * math.abs(math.cos(self.counter * math.pi * 2 / self.period))
 end
 
 return EnemyPath
