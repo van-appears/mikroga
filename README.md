@@ -13,3 +13,7 @@ Note that this is mostly a coding exercise. Real games require much more play te
 ## Notes
 
 As Love2d itself seems to use camelCase in its APIs, so will this project (excepting global constants in upper plus snakecase)
+
+## Attributions 
+
+Planets (from / created by ) Planet Collection & Builder by RSL Labs. http://opengameart.org/users/rsl-labs

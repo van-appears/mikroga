@@ -197,6 +197,7 @@ function Game:createEnemy(table)
 end 
 
 function Game:draw()
+    self.level:draw()
     for i,v in ipairs(self.explosions) do
         v:draw()
     end

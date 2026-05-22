@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.25] - 2026-05-22
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.24...0.0.25)
+
+### Changed
+
+- Updated the level to also have a draw method, showing a particle field and planet to give a sense of motion. Image taken from opengameart.org and attribution added to README.md
+- Updated the invulnerable image to no longer be transpatent.
+
 ## [0.0.24] - 2026-05-17
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.23...0.0.24)

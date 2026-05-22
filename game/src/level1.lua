@@ -2,6 +2,13 @@ local Level1 = Object:extend()
 
 function Level1:new()
     self.counter = 0
+    self.particleQuad = Images.particles
+    self.particles = {}
+    self.planetImage = Images.planet
+    self.planetHeight = self.planetImage:getHeight()
+    self.planetY = -self.planetHeight * 3 / 2
+    self:createStars()
+
     self.launchIndex = 1
     self.launch = {
         -- time, type, colour, x, y, speed
@@ -112,13 +119,49 @@ function Level1:new()
     }
 end
 
+function Level1:createStars()
+    for c = 1, WINDOW_HEIGHT do
+        self:createStar()
+        for i,v in ipairs(self.particles) do
+            v[2] = v[2] + 10 * 0.1 * v[4]
+        end
+    end
+end
+
+function Level1:createStar()
+    if love.math.random() < 0.1 then
+        local x = love.math.random(WINDOW_WIDTH - 16)
+        local y = -10
+        local type = math.random(6)
+        local speed = (8 - type) + love.math.random() / 2
+        table.insert(self.particles, { x, y, type, speed })
+    end
+end
+
 function Level1:update(dt, newEnemies)
     self.counter = self.counter + dt
+    self.planetY = self.planetY + dt * 20
+    self:createStar()
+
+    for i,v in ipairs(self.particles) do
+        v[2] = v[2] + 10 * dt * v[4]
+        if v[2] > WINDOW_HEIGHT then
+            table.remove(self.particles, i)
+        end
+    end
+
     local nextItem = self.launch[self.launchIndex]
-    while nextItem ~= nil and nextItem[1] < self.counter do 
+    while nextItem ~= nil and nextItem[1] < self.counter do
         table.insert(newEnemies, nextItem)
         self.launchIndex = self.launchIndex + 1
         nextItem = self.launch[self.launchIndex]
+    end
+end
+
+function Level1:draw()
+    love.graphics.draw(self.planetImage, WINDOW_WIDTH - 300, self.planetY)
+    for i,v in ipairs(self.particles) do
+        self.particleQuad:draw(v[3], v[1], v[2])
     end
 end
 
