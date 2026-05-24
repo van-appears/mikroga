@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.26] - 2026-05-22
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.25...0.0.26)
+
+### Added
+
+- Created `baddy1.lua` to represent an end-of-level boss. Baddy1 has no movement or fire pattern at this point and just requires several hits to kill. Level only ends once baddy is killed.
+
 ## [0.0.25] - 2026-05-22
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.24...0.0.25)

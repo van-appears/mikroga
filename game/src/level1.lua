@@ -115,7 +115,7 @@ function Level1:new()
         { 57.0, SPREADER, WHITE, CURVED, 300, 130, -300, 2.0 },
         { 57.5, SPREADER, WHITE, CURVED, 650, 130, -300, 2.0 },
 
-        { 67.0, 0, nil, nil, nil, nil }
+        { 67.0, BADDY1, nil, BADDY, nil, nil, nil }
     }
 end
 

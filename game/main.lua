@@ -16,11 +16,13 @@ function love.load()
     -- enemy type constants
     TARGETER = 1
     SPREADER = 2
+    BADDY1 = 3
     -- path type constants
-    DROP = 1
-    CURVED = 2
-    STRAFE_LEFT = 3
-    STRAFE_RIGHT = 4
+    BADDY = 1
+    DROP = 2
+    CURVED = 3
+    STRAFE_LEFT = 4
+    STRAFE_RIGHT = 5
 
     Game:load()
     Images:load()

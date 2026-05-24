@@ -2,6 +2,7 @@ Game = Object:extend()
 
 local Player
 local PlayerBullet
+local Baddy1
 local Enemy1
 local Enemy2
 local EnemyBullet
@@ -14,6 +15,7 @@ function Game:load()
     PlayerBullet = require "src/playerbullet"
     Player = require "src/player"
     EnemyBullet = require "src/enemybullet"
+    Baddy1 = require "src/baddy1"
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
     EnemyPath = require "src/enemypath"
@@ -58,9 +60,11 @@ function Game:update(dt)
             end
         elseif STATE == "completed" then
             self.endCounter = self.endCounter + dt
-            local yAdjust = math.sin(0.5 * self.endCounter * math.pi / 3)
-            self.player.y = self.player.y - yAdjust * 200
-            if self.endCounter > 3 then
+            if self.endCounter > 1 then
+                local yAdjust = math.sin(0.5 * (self.endCounter - 1) * math.pi / 3)
+                self.player.y = self.player.y - yAdjust * 200
+            end
+            if self.endCounter > 4 then
                 Scoreboard:update(self.score)
                 STATE = "menu"
             end
@@ -111,6 +115,9 @@ function Game:update(dt)
                         self:createExplosions(w)
                         table.remove(self.enemies, j)
                         self.score = self.score + w.score
+                        if w.type == BADDY1 then
+                            STATE = "completed"
+                        end
                     end
                 end
             end
@@ -145,12 +152,8 @@ function Game:update(dt)
 
     self.level:update(dt, newEnemies)
     for i,v in ipairs(newEnemies) do
-        if v[2] == 0 then
-            STATE = "completed"
-        else
-            local enemy = self:createEnemy(v)
-            table.insert(self.enemies, enemy)
-        end
+        local enemy = self:createEnemy(v)
+        table.insert(self.enemies, enemy)
     end
 end
 
@@ -187,14 +190,19 @@ function Game:createEnemy(table)
     elseif table[4] == CURVED then
         path = EnemyPath:curvedDrop(table[5], table[6], table[7], table[8])
     end
-    if table[2] == 1 then
+
+    if table[2] == BADDY1 then
+        enemy = Baddy1()
+    elseif table[2] == TARGETER then
         enemy = Enemy1(path)
-    else
+        enemy.colour = table[3]
+    elseif table[3] == SPREADER then
         enemy = Enemy2(path)
+        enemy.colour = table[3]
     end
-    enemy.colour = table[3]
+
     return enemy
-end 
+end
 
 function Game:draw()
     self.level:draw()

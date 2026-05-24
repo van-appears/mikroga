@@ -14,6 +14,7 @@ function Images:load()
     self.enemybullet = QuadImage:build("assets/enemy_bullet.png", 32, 32, 1)
     self.explosion = QuadImage:build("assets/explosion.png", 16, 16, 0)
     self.particles = QuadImage:build("assets/particles.png", 8, 8, 0)
+    self.baddy1 = love.graphics.newImage("assets/baddy1.png")
 end
 
 function QuadImage:build(imagePath, width, height, space)

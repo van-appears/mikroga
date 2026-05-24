@@ -33,6 +33,12 @@ function EnemyPath:curvedDrop(startX, speed, width, period)
     return path
 end
 
+function EnemyPath:arrive(startX, speedY, targetY)
+    local path = EnemyPath:angled(startX, -100, speedY, 90)
+    path.targetY = targetY
+    return path
+end
+
 function EnemyPath:defined(opts, target)
     local path = StraightPath()
     path.x = opts.x
@@ -55,6 +61,11 @@ end
 function StraightPath:update(dt)
     self.x = self.x + (self.speedX * dt)
     self.y = self.y + (self.speedY * dt)
+    if self.targetY ~= nil and self.y > self.targetY then
+        self.y = self.targetY
+        self.targetY = nil
+        self.speedY = 0
+    end
 end
 
 function CurvedPath:new()
