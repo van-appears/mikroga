@@ -1,6 +1,7 @@
 local EnemyPath = Object:extend()
 local CurvedPath = Object:extend()
 local StraightPath = Object:extend()
+local Figure8Path = Object:extend()
 
 function EnemyPath:drop(startX, speedY)
     return EnemyPath:angled(startX, -100, speedY, 90)
@@ -39,6 +40,14 @@ function EnemyPath:arrive(startX, speedY, targetY)
     return path
 end
 
+function EnemyPath:figure8(startX, startY, width, height, period)
+    local path = Figure8Path(startX, startY)
+    path.period = period
+    path.width = width
+    path.height = height
+    return path
+end
+
 function EnemyPath:defined(opts, target)
     local path = StraightPath()
     path.x = opts.x
@@ -54,6 +63,10 @@ function EnemyPath:defined(opts, target)
         local speed = opts.speed or 300
         path.speedX = speed * diffX / dist
         path.speedY = speed * diffY / dist
+    else
+        local speed = opts.speed or (100 + love.math.random(100))
+        path.speedX = 0
+        path.speedY = speed
     end
     return path
 end
@@ -65,6 +78,7 @@ function StraightPath:update(dt)
         self.y = self.targetY
         self.targetY = nil
         self.speedY = 0
+        self.arrived = true
     end
 end
 
@@ -76,6 +90,28 @@ function CurvedPath:update(dt)
     self.counter = self.counter + dt
     self.x = self.x + self.width * dt * math.sin(self.counter * math.pi * 2 / self.period)
     self.y = self.y + self.speedY * dt * math.abs(math.cos(self.counter * math.pi * 2 / self.period))
+end
+
+function Figure8Path:new(startX, startY)
+    self.counter = 0
+    self.startX = startX
+    self.startY = startY
+    self.x = startX
+    self.y = startY
+    self.direction = 1
+end
+
+function Figure8Path:update(dt)
+    self.counter = self.counter + dt
+    if self.counter > self.period then
+        self.direction = -self.direction
+        self.counter = self.counter - self.period
+    end
+    self.x = self.startX
+        + (self.direction * self.width)
+        - (self.direction * self.width * math.cos(self.counter * math.pi * 2 / self.period))
+    self.y = self.startY
+        + (self.height * math.sin(self.counter * math.pi * 2 / self.period))
 end
 
 return EnemyPath

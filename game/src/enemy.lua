@@ -1,11 +1,12 @@
 local Enemy = Object:extend()
+local FireTrigger = require "src/firetrigger"
 
 function Enemy:new(path)
-    self.colour = Enemy:randomColour()
+    self.colour = nil
+    self.trigger = FireTrigger:once(1.5, self, self.fire)
     self.gone = false
-    self.fired = false
-    self.health = 3
-    self.score = 10
+    self.health = 0
+    self.score = 0
     self.counter = 0
     self.path = path
 end
@@ -19,22 +20,11 @@ function Enemy:update(dt, newBullets)
         self.path.x < -100 then
         self.gone = true
     end
-    if not self.fired and self.counter > 1.5 then
-        self:fire(newBullets)
-        self.fired = true
-    end
+    self.trigger:update(dt, newBullets)
 end
 
-function Enemy:fire(newBullets)
+function Enemy:fire()
     -- to be implemented by objects extending enemy
-end
-
-function Enemy:randomColour()
-    if love.math.random(10) <= 5 then
-        return BLACK
-    else
-        return WHITE
-    end
 end
 
 return Enemy

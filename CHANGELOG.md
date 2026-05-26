@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.27] - 2026-05-26
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.26...0.0.27)
+
+### Added
+
+- Created `firetrigger.lua` to represent a way of triggering firing methods in enemies.
+- Created `Figure8Path` as a new path type
+
+### Changed
+
+- Updated `enemy.lua`, `enemy1.lua`, `enemy2.lua` to use firetrigger and fixed a bug where they had lost their points and health settings 
+- Updated `baddy1.lua` to have its own firing patterns, and to use the figure8path
+
 ## [0.0.26] - 2026-05-22
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.25...0.0.26)

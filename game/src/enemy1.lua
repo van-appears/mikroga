@@ -6,17 +6,21 @@ function Enemy1:new(path)
     self.imageQuad = Images.enemy1
     self.width = self.imageQuad.width
     self.height = self.imageQuad.height
+    self.health = 3
+    self.score = 10
 end
 
-function Enemy1:fire(newBullets)
+function Enemy1:fire()
     -- create the bullet using the centre point of the enemy ship X
     -- and the front of the ship
-    table.insert(newBullets, {
-        x = self.path.x + (self.width - Images.enemybullet.width) / 2,
-        y = self.path.y + self.height,
-        target = true,
-        colour = self.colour
-    })
+    return {
+        {
+            x = self.path.x + (self.width - Images.enemybullet.width) / 2,
+            y = self.path.y + self.height,
+            target = true,
+            colour = self.colour
+        }
+    }
 end
 
 function Enemy1:draw()
