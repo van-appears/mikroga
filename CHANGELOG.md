@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.28] - 2026-05-30
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.27...0.0.28)
+
+### Changed
+
+- Removing items from a table inside a loop over that table leads to jerkiness in some movements - so this refactor traverse tables in a different way 
+
 ## [0.0.27] - 2026-05-26
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.26...0.0.27)

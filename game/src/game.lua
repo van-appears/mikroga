@@ -26,8 +26,11 @@ end
 
 function Game:prepare()
     self.enemies = {}
+    self.newEnemies = {}
     self.playerBullets = {}
+    self.newPlayerBullets = {}
     self.enemyBullets = {}
+    self.newEnemyBullets = {}
     self.explosions = {}
     self.hits = {}
 
@@ -44,10 +47,6 @@ function Game:prepare()
 end
 
 function Game:update(dt)
-    local newPlayerBullets = {}
-    local newEnemyBullets = {}
-    local newEnemies = {}
-
     self.deadNext = false
     self.hits = {}
     self.counter = self.counter + dt
@@ -69,7 +68,7 @@ function Game:update(dt)
                 STATE = "menu"
             end
         else
-            self.player:update(dt, newPlayerBullets)
+            self.player:update(dt, self.newPlayerBullets)
         end
     else
         self.endCounter = self.endCounter + dt
@@ -79,81 +78,28 @@ function Game:update(dt)
         end
     end
 
-    for i,v in ipairs(self.enemyBullets) do
-        v:update(dt)
-        if not self.deadNext and self.lives > 0 and self.player:collided(v) then
-            table.remove(self.enemyBullets, i)
-            if v.colour == self.player.colour then
-                v.colour = 4
-                self.score = self.score + 1
-                table.insert(self.hits, v)
-            else
-                v.colour = 3 -- magic number, third quad in enemy_bullet.png
-                table.insert(self.hits, v)
-                self:playerDied()
-            end
-        elseif v.gone then
-            table.remove(self.enemyBullets, i)
-        end
-    end
+    self:updateTable(self.enemyBullets, dt, self.updateEnemyBullet)
+    self:updateTable(self.playerBullets, dt, self.updatePlayerBullet)
+    self:updateTable(self.explosions, dt, self.updateExplosion)
+    self:updateTable(self.enemies, dt, self.updateEnemy)
 
-    for i,v in ipairs(self.playerBullets) do
-        v:update(dt)
-        if v.gone then
-            table.remove(self.playerBullets, i)
-        else
-            for j,w in ipairs(self.enemies) do
-                if v:collided(w) then
-                    table.remove(self.playerBullets, i)
-                    if v.colour == w.colour then
-                        w.health = w.health - 1
-                    else
-                        w.health = w.health - 2
-                    end
-
-                    if w.health <= 0 then
-                        self:createExplosions(w)
-                        table.remove(self.enemies, j)
-                        self.score = self.score + w.score
-                        if w.type == BADDY1 then
-                            STATE = "completed"
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    for i,v in ipairs(self.explosions) do
-        v:update(dt)
-        if v.gone then
-            table.remove(self.explosions, i)
-        end
-    end
-
-    for i,v in ipairs(self.enemies) do
-        v:update(dt, newEnemyBullets)
-        if not self.deadNext and self.lives > 0 and self.player:collided(v) then
-            self:playerDied()
-        elseif v.gone then
-            table.remove(self.enemies, i)
-        end
-    end
-
-    for i,v in ipairs(newEnemyBullets) do
+    for i,v in ipairs(self.newEnemyBullets) do
         local bullet = EnemyBullet(EnemyPath:defined(v, self.player), v.colour)
         table.insert(self.enemyBullets, bullet)
+        self.newEnemyBullets[i] = nil
     end
 
-    for i,v in ipairs(newPlayerBullets) do
+    for i,v in ipairs(self.newPlayerBullets) do
         local bullet = PlayerBullet(v)
         table.insert(self.playerBullets, bullet)
+        self.newPlayerBullets[i] = nil
     end
 
-    self.level:update(dt, newEnemies)
-    for i,v in ipairs(newEnemies) do
+    self.level:update(dt, self.newEnemies)
+    for i,v in ipairs(self.newEnemies) do
         local enemy = self:createEnemy(v)
         table.insert(self.enemies, enemy)
+        self.newEnemies[i] = nil
     end
 end
 
@@ -176,6 +122,90 @@ function Game:createExplosions(source)
             Explosion(v)
         )
     end
+end
+
+function Game:updateTable(myTable, dt, updateFn)
+    if #myTable == 0 then
+        return
+    end
+
+    local i = 1
+    local last = 1
+    while myTable[i] do
+        if updateFn(self, myTable[i], dt) then
+            if (i ~= last) then
+                myTable[last] = myTable[i]
+                myTable[i] = nil
+            end
+            last = last + 1
+        else
+            myTable[i] = nil
+        end
+        i = i + 1
+    end
+end
+
+function Game:updateEnemyBullet(bullet, dt)
+    bullet:update(dt)
+    if bullet.gone then
+        return false
+    end
+    if not self.deadNext and self.lives > 0 and self.player:collided(bullet) then
+        if bullet.colour == self.player.colour then
+            bullet.colour = 4
+            self.score = self.score + 1
+            table.insert(self.hits, bullet)
+        else
+            bullet.colour = 3
+            table.insert(self.hits, bullet)
+            self:playerDied()
+        end
+        return false
+    end
+    return true
+end
+
+function Game:updateEnemy(enemy, dt)
+    enemy:update(dt, self.newEnemyBullets)
+    if not self.deadNext and self.lives > 0 and self.player:collided(enemy) then
+        self:playerDied()
+    elseif enemy.gone then
+        return false
+    end
+    return true
+end
+
+function Game:updatePlayerBullet(bullet, dt)
+    bullet:update(dt)
+    if bullet.gone then
+        return false
+    end
+
+    for i,v in ipairs(self.enemies) do
+        if bullet:collided(v) then
+            if bullet.colour == v.colour then
+                v.health = v.health - 1
+            else
+                v.health = v.health - 2
+            end
+
+            if v.health <= 0 then
+                v.gone = true
+                self:createExplosions(v)
+                self.score = self.score + v.score
+                if v.type == BADDY1 then
+                    STATE = "completed"
+                end
+            end
+            return false
+        end
+    end
+    return true
+end
+
+function Game:updateExplosion(explosion, dt)
+    explosion:update(dt)
+    return not explosion.gone
 end
 
 function Game:createEnemy(table)
