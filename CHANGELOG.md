@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.29] - 2026-06-05
+
+[diff](https://github.com/van-appears/mikroga/compare/0.0.28...0.0.29)
+
+### Added
+
+- Created `level2.lua`, which at this point is mostly just a copy of `level1.lua`
+- Created `enemy3.lua`, a third enemy type that fires forward along with its assets
+
+### Changed
+
+- Changed game.lua to allow multiple levels 
+
 ## [0.0.28] - 2026-05-30
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.27...0.0.28)

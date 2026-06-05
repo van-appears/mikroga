@@ -18,7 +18,8 @@ function Enemy1:fire()
             x = self.path.x + (self.width - Images.enemybullet.width) / 2,
             y = self.path.y + self.height,
             target = true,
-            colour = self.colour
+            colour = self.colour,
+            speed = self.path.speed + 100
         }
     }
 end

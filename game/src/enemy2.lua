@@ -13,7 +13,7 @@ end
 function Enemy2:fire()
     local startX = self.path.x + (self.width - Images.enemybullet.width) / 2
     local startY = self.path.y + self.height
-    local speed = 100 + love.math.random(100)
+    local speed = self.path.speed + 100
     return {
         {
             x = startX,

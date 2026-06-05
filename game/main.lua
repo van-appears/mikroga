@@ -16,7 +16,8 @@ function love.load()
     -- enemy type constants
     TARGETER = 1
     SPREADER = 2
-    BADDY1 = 3
+    FORWARDER = 3
+    BADDY1 = 4
     -- path type constants
     BADDY = 1
     DROP = 2

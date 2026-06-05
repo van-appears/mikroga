@@ -5,11 +5,13 @@ local PlayerBullet
 local Baddy1
 local Enemy1
 local Enemy2
+local Enemy3
 local EnemyBullet
 local EnemyPath
 local Explosion
 local Hud
 local Level1
+local Level2
 
 function Game:load()
     PlayerBullet = require "src/playerbullet"
@@ -18,10 +20,12 @@ function Game:load()
     Baddy1 = require "src/baddy1"
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
+    Enemy3 = require "src/enemy3"
     EnemyPath = require "src/enemypath"
     Explosion = require "src/explosion"
     Hud = require "src/hud"
     Level1 = require "src/level1"
+    Level2 = require "src/level2"
 end
 
 function Game:prepare()
@@ -36,6 +40,7 @@ function Game:prepare()
 
     self.hud = Hud(self)
     self.player = Player()
+    self.levelId = 1
     self.level = Level1()
     self.deadNext = false
     self.counter = 0
@@ -65,7 +70,16 @@ function Game:update(dt)
             end
             if self.endCounter > 4 then
                 Scoreboard:update(self.score)
-                STATE = "menu"
+                if self.levelId == 1 then
+                    self.levelId = self.levelId + 1
+                    self.level = Level2()
+                    self.player = Player()
+                    self.counter = 0
+                    self.endCounter = 0
+                    STATE = "begin"
+                else
+                    STATE = "menu"
+                end
             end
         else
             self.player:update(dt, self.newPlayerBullets)
@@ -195,6 +209,7 @@ function Game:updatePlayerBullet(bullet, dt)
                 self.score = self.score + v.score
                 if v.type == BADDY1 then
                     STATE = "completed"
+                    self.enemyBullets = {}
                 end
             end
             return false
@@ -226,8 +241,11 @@ function Game:createEnemy(table)
     elseif table[2] == TARGETER then
         enemy = Enemy1(path)
         enemy.colour = table[3]
-    elseif table[3] == SPREADER then
+    elseif table[2] == SPREADER then
         enemy = Enemy2(path)
+        enemy.colour = table[3]
+    elseif table[2] == FORWARDER then
+        enemy = Enemy3(path)
         enemy.colour = table[3]
     end
 

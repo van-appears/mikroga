@@ -21,6 +21,7 @@ function EnemyPath:angled(startX, startY, speed, angle)
     path.y = startY
     path.speedX = speed * math.cos(angle * math.pi * 2.0 / 360)
     path.speedY = speed * math.sin(angle * math.pi * 2.0 / 360)
+    path.speed = speed
     return path
 end
 
@@ -31,12 +32,14 @@ function EnemyPath:curvedDrop(startX, speed, width, period)
     path.speedY = speed
     path.width = width
     path.period = period
+    path.speed = speed
     return path
 end
 
 function EnemyPath:arrive(startX, speedY, targetY)
     local path = EnemyPath:angled(startX, -100, speedY, 90)
     path.targetY = targetY
+    path.speed = speedY
     return path
 end
 
