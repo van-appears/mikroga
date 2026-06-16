@@ -18,12 +18,14 @@ function love.load()
     SPREADER = 2
     FORWARDER = 3
     BADDY1 = 4
+    BADDY2 = 5
     -- path type constants
-    BADDY = 1
+    INTERNAL = 1
     DROP = 2
     CURVED = 3
     STRAFE_LEFT = 4
     STRAFE_RIGHT = 5
+    TWEEN = 6
 
     Game:load()
     Images:load()

@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
+## [0.0.30] - 2026-06-16
+
+### Added
+
+- Created `baddy2.lua`, as the end-of-level boss for level 2
+- Added 'clouds.png' as the background type for level 2
+- Added flux.lua library and attribution, as well as new TweenPath type
+
+### Changed
+
+- Changed `level2.lua` to have alternative enemy structure 
+
 ## [0.0.29] - 2026-06-05
 
 [diff](https://github.com/van-appears/mikroga/compare/0.0.28...0.0.29)

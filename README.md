@@ -17,3 +17,7 @@ As Love2d itself seems to use camelCase in its APIs, so will this project (excep
 ## Attributions 
 
 Planets (from / created by ) Planet Collection & Builder by RSL Labs. http://opengameart.org/users/rsl-labs
+
+flux.lua from rxi: https://github.com/rxi/flux/blob/master/LICENSE
+
+clasic.lua from rxi: https://github.com/rxi/classic/blob/master/LICENSE

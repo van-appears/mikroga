@@ -2,6 +2,8 @@ local EnemyPath = Object:extend()
 local CurvedPath = Object:extend()
 local StraightPath = Object:extend()
 local Figure8Path = Object:extend()
+local TweenPath = Object:extend()
+local flux = require "lib/flux"
 
 function EnemyPath:drop(startX, speedY)
     return EnemyPath:angled(startX, -100, speedY, 90)
@@ -40,6 +42,11 @@ function EnemyPath:arrive(startX, speedY, targetY)
     local path = EnemyPath:angled(startX, -100, speedY, 90)
     path.targetY = targetY
     path.speed = speedY
+    return path
+end
+
+function EnemyPath:tween(pathArray)
+    local path = TweenPath(pathArray)
     return path
 end
 
@@ -115,6 +122,32 @@ function Figure8Path:update(dt)
         - (self.direction * self.width * math.cos(self.counter * math.pi * 2 / self.period))
     self.y = self.startY
         + (self.height * math.sin(self.counter * math.pi * 2 / self.period))
+end
+
+function TweenPath:new(sections)
+    local sectionTime = sections[1]
+    self.speed = sections[2]
+    self.x = sections[3]
+    self.y = sections[4]
+    self.tween = flux
+        .to(self, sectionTime, { x = sections[5], y = sections[6] })
+
+    local nextCounter = 7
+    local nextAfter = nil
+    while nextCounter < #sections do
+        if not nextAfter then
+            nextAfter = self.tween:after(self, sectionTime, { x = sections[nextCounter], y = sections[nextCounter + 1] })
+        else
+            nextAfter = nextAfter:after(self, sectionTime, { x = sections[nextCounter], y = sections[nextCounter + 1] })
+        end
+        nextCounter = nextCounter + 2
+    end
+
+    self.tween:ease("cubicinout")
+end
+
+function TweenPath:update(dt)
+    flux.update(dt)
 end
 
 return EnemyPath

@@ -3,6 +3,7 @@ Game = Object:extend()
 local Player
 local PlayerBullet
 local Baddy1
+local Baddy2
 local Enemy1
 local Enemy2
 local Enemy3
@@ -18,6 +19,7 @@ function Game:load()
     Player = require "src/player"
     EnemyBullet = require "src/enemybullet"
     Baddy1 = require "src/baddy1"
+    Baddy2 = require "src/baddy2"
     Enemy1 = require "src/enemy1"
     Enemy2 = require "src/enemy2"
     Enemy3 = require "src/enemy3"
@@ -223,30 +225,34 @@ function Game:updateExplosion(explosion, dt)
     return not explosion.gone
 end
 
-function Game:createEnemy(table)
+function Game:createEnemy(enemyInfo)
     local enemy = nil
     local path = nil
-    if table[4] == DROP then
-        path = EnemyPath:drop(table[5], table[6])
-    elseif table[4] == STRAFE_LEFT then
-        path = EnemyPath:strafeLeft(table[5], table[6])
-    elseif table[4] == STRAFE_RIGHT then
-        path = EnemyPath:strafeRight(table[5], table[6])
-    elseif table[4] == CURVED then
-        path = EnemyPath:curvedDrop(table[5], table[6], table[7], table[8])
+    if enemyInfo[4] == DROP then
+        path = EnemyPath:drop(enemyInfo[5], enemyInfo[6])
+    elseif enemyInfo[4] == STRAFE_LEFT then
+        path = EnemyPath:strafeLeft(enemyInfo[5], enemyInfo[6])
+    elseif enemyInfo[4] == STRAFE_RIGHT then
+        path = EnemyPath:strafeRight(enemyInfo[5], enemyInfo[6])
+    elseif enemyInfo[4] == CURVED then
+        path = EnemyPath:curvedDrop(enemyInfo[5], enemyInfo[6], enemyInfo[7], enemyInfo[8])
+    elseif enemyInfo[4] == TWEEN then
+        path = EnemyPath:tween(Game:slice(enemyInfo, 5, #enemyInfo))
     end
 
-    if table[2] == BADDY1 then
+    if enemyInfo[2] == BADDY1 then
         enemy = Baddy1()
-    elseif table[2] == TARGETER then
+    elseif enemyInfo[2] == BADDY2 then
+        enemy = Baddy2()
+    elseif enemyInfo[2] == TARGETER then
         enemy = Enemy1(path)
-        enemy.colour = table[3]
-    elseif table[2] == SPREADER then
+        enemy.colour = enemyInfo[3]
+    elseif enemyInfo[2] == SPREADER then
         enemy = Enemy2(path)
-        enemy.colour = table[3]
-    elseif table[2] == FORWARDER then
+        enemy.colour = enemyInfo[3]
+    elseif enemyInfo[2] == FORWARDER then
         enemy = Enemy3(path)
-        enemy.colour = table[3]
+        enemy.colour = enemyInfo[3]
     end
 
     return enemy
@@ -273,6 +279,16 @@ function Game:draw()
         self.player:draw()
     end
     self.hud:draw()
+end
+
+function Game:slice(array, first, last)
+   local slicedArray = {}
+   local index = 1
+   for i = first, last do
+      slicedArray[index] = array[i]
+      index = index + 1
+   end
+   return slicedArray
 end
 
 return Game
